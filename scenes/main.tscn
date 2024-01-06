@@ -1,0 +1,54 @@
+[gd_scene load_steps=9 format=3 uid="uid://dog774elxj4hm"]
+
+[ext_resource type="Texture2D" uid="uid://c8arnlq67qi7" path="res://assets/textures/grids/Dark/texture_05.png" id="1_ufipv"]
+[ext_resource type="Texture2D" uid="uid://b58xv1joypxo5" path="res://assets/textures/grids/Orange/texture_09.png" id="2_o6ttx"]
+[ext_resource type="PackedScene" uid="uid://dsmt2pkxw8etg" path="res://scenes/player.tscn" id="3_sifla"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vya1o"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_ummpp"]
+sky_material = SubResource("ProceduralSkyMaterial_vya1o")
+
+[sub_resource type="Environment" id="Environment_y3l4v"]
+background_mode = 2
+sky = SubResource("Sky_ummpp")
+tonemap_mode = 2
+sdfgi_enabled = true
+glow_enabled = true
+fog_enabled = true
+fog_light_color = Color(1, 1, 1, 1)
+fog_density = 0.001
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v42e1"]
+albedo_texture = ExtResource("1_ufipv")
+uv1_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4y81v"]
+albedo_texture = ExtResource("2_o6ttx")
+
+[node name="World" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0.798956, 6.59262, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_y3l4v")
+
+[node name="Map" type="Node3D" parent="."]
+
+[node name="floor" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+material_override = SubResource("StandardMaterial3D_v42e1")
+use_collision = true
+size = Vector3(1000, 1, 1000)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.49855, 0.5, 0)
+material_override = SubResource("StandardMaterial3D_4y81v")
+use_collision = true
+
+[node name="player" parent="." instance=ExtResource("3_sifla")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.170058, 0, -0.137774)
